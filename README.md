@@ -75,3 +75,60 @@ Breakpoint를 만드는 기본적인 명령어 구조는 다음과 같습니다.
 ```
 Breakpoint 3: where = XCodeGenTest`XCodeGenTest.ViewController.viewDidLoad() -> () + 82 at ViewController.swift:15:15, address = 0x000000010f32d592
 ```
+
+### Condition
+ - condition (-c) option을 이용하면, breakpoint에 조건을 걸 수 있습니다. 
+
+```
+# viewWillAppear 호출시, animated가 true인 경우에만 break
+(lldb) breakpoint set --name "viewWillAppear" --condition animated
+(lldb) br s -n "viewWillAppear" -c animated
+```
+
+### Command 실행 & AutoContinue
+ - command (-c) option을 이용하면 break시 원하는 lldb command를 실행 할 수 있습니다.
+
+```
+(lldb) breakpoint set -n "viewDidLoad" --command "po $arg1" -G1
+(lldb) br s -n "viewDidLoad" -C "po $arg1" -G1
+```
+
+## Breakpoint 리스트 확인하기
+breakpoint list command를 통해 현재 프로그램에 생성되어있는 breakpoint의 목록을 확인할 수 있습니다. 
+> hit-count? -> 프로그램 실행 중 활성상태인 breakpoint 지점이 실행되면, Debugger는 hit count를 1씩 늘려가며 기록합니다. 하지만 breakpoint가 걸려있더라도 disable상태이면 count되지 않습니다.  
+
+```
+(lldb) breakpoint list
+(lldb) br list
+# breakpoint 목록 간단하게 출력
+(lldb) br list -b
+# 특정 id를 가진 breakpoint의 정보만 출력
+(lldb) br list 1
+```
+
+## Breakpoint 삭제 or 비활성화 시키기
+delete, disable Subcommand를 이용해 Breakpoint를 삭제하거나, 비활성화 할 수 있습니다.
+
+```
+(lldb) breakpoint delete
+(lldb) br de
+# 특정 breakpoint 삭제
+(lldb) br de 1
+# breakpoint 전체 비활성화
+(lldb) breakpoint disable
+(lldb) br di
+# 특정 breakpoint 비활성화
+(lldb) br di 1.1
+```
+
+
+
+
+
+
+
+
+
+
+
+
