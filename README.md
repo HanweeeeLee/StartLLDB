@@ -121,6 +121,16 @@ delete, disable Subcommand를 이용해 Breakpoint를 삭제하거나, 비활성
 (lldb) br di 1.1
 ```
 
+# Stepping
+Stepping은 프로세스를 단계별로 진행하면서 상태 변화를 관찰해 볼 수 있는 유용한 기능입니다.
+
+## Stepping Over
+**(lldb) next** Command를 이용하면, 현재 break 걸려있는 지점에서 바로 다음 Statement로 StepOver 할 수 있습니다. 줄여서 **(lldb) n**으로 사용 가능합니다.
+
+## Stepping In
+Stepping in은 다음 Statement가 Function Call인 경우 Debugger를 해당 함수 내부에서 위치한 시작 지점으로 이동하게 해줍니다.
+**(lldb) step** Command를 이용해 실행할 수 있습니다. 줄여서 **(lldb) s**로 사용 가능합니다.
+
 
 
 
