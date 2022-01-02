@@ -131,6 +131,21 @@ Stepping은 프로세스를 단계별로 진행하면서 상태 변화를 관찰
 Stepping in은 다음 Statement가 Function Call인 경우 Debugger를 해당 함수 내부에서 위치한 시작 지점으로 이동하게 해줍니다.
 **(lldb) step** Command를 이용해 실행할 수 있습니다. 줄여서 **(lldb) s**로 사용 가능합니다.
 
+### Stepping In 동작이 이상해요 💀
+> Stepping In으ㄴ 주로 바로 위에서 소개된 Stepping Over와 비슷하게 동작하는 경우가 많습니다.  
+> LLDB의 경우에는 기본적으로 Debug Symbol이 없는 함수에 대해서는 Stepping In을 무시하고, 프로그램을 진행하기 때문입니다.  
+
+## Stepping Out
+현재 진행중인 function이 return 될때까지 프로그램을 진행한 후 프로그램 Break걸어주는 Stepping Action을 Stepping Out 이라고 합니다.  
+(lldb) finish Command로 실행해볼 수 있습니다. Stack Memory 관점에서 Stepping Out은 Stack Frame을 Pop하는 것과 동일합니다.
+
+###  이미 눈치채셨겠지만, Stepping 명령들은 LLDB Console 상단에 위치한 다음 세개의 버튼과 같은 역할을 합니다. ? 왼쪽부터 차례대로 Step-Over, Step-In, Step-Out 을 의미합니다.  
+<img width="93" alt="lldb_stepping_button-2" src="https://user-images.githubusercontent.com/60125719/147892677-9d604dec-1a55-4a58-8d7e-5930775f740e.png">
+
+
+
+
+
 
 
 
