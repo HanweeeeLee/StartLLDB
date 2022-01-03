@@ -132,7 +132,7 @@ Stepping in은 다음 Statement가 Function Call인 경우 Debugger를 해당 �
 **(lldb) step** Command를 이용해 실행할 수 있습니다. 줄여서 **(lldb) s**로 사용 가능합니다.
 
 ### Stepping In 동작이 이상해요 💀
-> Stepping In으ㄴ 주로 바로 위에서 소개된 Stepping Over와 비슷하게 동작하는 경우가 많습니다.  
+> Stepping In은 주로 바로 위에서 소개된 Stepping Over와 비슷하게 동작하는 경우가 많습니다.  
 > LLDB의 경우에는 기본적으로 Debug Symbol이 없는 함수에 대해서는 Stepping In을 무시하고, 프로그램을 진행하기 때문입니다.  
 
 ## Stepping Out
@@ -141,6 +141,53 @@ Stepping in은 다음 Statement가 Function Call인 경우 Debugger를 해당 �
 
 ###  이미 눈치채셨겠지만, Stepping 명령들은 LLDB Console 상단에 위치한 다음 세개의 버튼과 같은 역할을 합니다. ? 왼쪽부터 차례대로 Step-Over, Step-In, Step-Out 을 의미합니다.  
 <img width="93" alt="lldb_stepping_button-2" src="https://user-images.githubusercontent.com/60125719/147892677-9d604dec-1a55-4a58-8d7e-5930775f740e.png">
+
+# Expression
+## po 
+(lldb) help po를 통해 확인할 수 있듯, po는 (lldb) expression -O -- 의 Shorthand입니다. 여기서 -O option은 object의 description을 출력하겠다는 뜻입니다.  
+po가 출력하는 description은 NSObject의 debugDescription입니다.  
+따라서, 아래와 같이 debugDescription를 override 한다면,  
+```Swift
+override var debugDescription: String {
+  return "이 객체의 debugDescription은 \(super.debugDescription) 입니다."
+}
+```
+![lldb_po-1024x88](https://user-images.githubusercontent.com/60125719/147892719-1d344fbd-9cae-4872-9673-d99f544f05aa.png)
+
+## Variable 사용하기
+(lldb) expression Command는 Runtime에 여러 정보를 출력할 수 있을 뿐아니라 값을 변경 해줄 수도 있습니다.  
+LLDB는 내부적으로 값이 출력될때마다 local variable을 $R~의 형태로 만들어 저장합니다. 이 값들은 해당 break context가 벗어나도 사용 가능한 값들이고, 심지어 수정해서 사용할 수도 있습니다.  
+ex)  
+```
+(lldb) expression self.view
+# self.view 정보를 출력하는데, 출력된 정보에는 $R0 이라는 이름의 변수에 self.view가 저장된 것으로 보입니다.
+
+(lldb) expression $R0.backgroundColor = UIColor.blue
+# 위에서 나온 self.view가 저장된 $R0의 속성인 배경 색상 (backgroundColor) 을 변경합니다.
+
+(lldb) continue
+# Code를 마저 진행합니다.
+```
+## Variable 선언하기
+(lldb) expression Command를 이용해서 변수를 직접 선언해서 사용할 수도 있습니다. 단, 사용하고자 하는 변수명 앞에 $ 문자를 붙여줘야 합니다.  
+```
+(lldb) expr let $someNumber = 10
+(lldb) expr var $someString = "some string"
+```
+### Multi-line Expression 입력하기
+(lldb) expression 명령어를 입력한 후 return키를 입력하면, Multi-line Command를 입력할 수 있게 됩니다. 이 Command Console은 다시 return키를 입력해주면 완료됩니다.  
+
+### --ignre-breakpoints option 활용하기
+--ignore-breakpoints는 유용한 option중 하나로, expression 실행 중 만나는 breakpoint를 ignore할지 여부를 선택할 수 있습니다.(default값은 -ignore-breakpoint ture입니다.)  
+ex)  
+```
+#  실행 도중 breakpoint를 만나도 그냥 진행
+(lldb) expression --ignore-breakpoints true --
+(lldb) ex -i 1 --
+#  실행 도중 breakpoint를 만나면 멈춤
+(lldb) expression --ignore-breakpoints false --
+(lldb) ex -i 0 --  
+```
 
 
 
