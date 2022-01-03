@@ -189,6 +189,12 @@ ex)
 (lldb) ex -i 0 --  
 ```
 
+# Image
+## Image List
+(lldb) image list 는 현재 Process에 Load 되어잇는 모든 Module들의 정보를 출력합니다.  
+<img width="1034" alt="스크린샷 2022-01-03 오전 9 33 08" src="https://user-images.githubusercontent.com/60125719/147893343-df6ea2ee-d78a-41ff-9244-c68f1752953d.png">  
+> 현재 Load 되어있는 Module들의 UUID, 실제 Memory상 Load되어있는 주소값, 그리고 Disk 내에서 Binary가 존재하는 Path 정보를 알 수 있습니다.  
+
 
 
 
